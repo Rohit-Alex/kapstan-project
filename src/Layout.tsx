@@ -1,6 +1,5 @@
 import React, { PropsWithChildren, useState } from "react";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
 
 import AppDrawer from "components/AppDrawer";
 import AppHeader from "components/AppHeader";
@@ -16,7 +15,6 @@ const Layout: React.FC<PropsWithChildren> = ({ children }) => {
     <Box sx={{ display: "flex" }}>
       <AppDrawer />
       <Box flex={1}>
-        <CssBaseline />
         <AppHeader handleSetDimensions={handleSetAppHeaderDimensions} />
 
         <Box

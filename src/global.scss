@@ -23,3 +23,17 @@
 .flex-align-center {
   align-items: center;
 }
+
+.flex-column {
+  flex-direction: column;
+}
+
+.content-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.none {
+  visibility: hidden;
+}
