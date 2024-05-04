@@ -27,7 +27,10 @@ const DeploymentCard = () => {
   return !isloaded ? (
     <Shimmer height={180} />
   ) : (
-    <Card sx={{ borderRadius: "8px" }}>
+    <Card
+      sx={{ borderRadius: "8px" }}
+      className={`shimmer-inactive-ctn ${!isloaded ? "" : "visible"}`}
+    >
       <CardContent>
         <Typography variant="headerText">Service Info</Typography>
         <Box display="flex" my={2} gap={8}>

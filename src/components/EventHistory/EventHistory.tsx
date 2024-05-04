@@ -55,7 +55,10 @@ const EventHistory: React.FC<PropsType> = ({ showAll }) => {
   return loading ? (
     <Shimmer height={515} />
   ) : (
-    <Card sx={{ borderRadius: "8px" }}>
+    <Card
+      sx={{ borderRadius: "8px" }}
+      className={`shimmer-inactive-ctn ${loading ? "" : "visible"}`}
+    >
       <CardContent>
         <Typography variant="headerText">Event History</Typography>
         <Table aria-label="simple table">

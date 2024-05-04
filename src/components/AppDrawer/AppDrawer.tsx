@@ -42,6 +42,19 @@ const sideBarMenus = [
   },
 ];
 
+const sideBarBottomMenus = [
+  {
+    title: "Admin",
+    icon: userIcon,
+    showDivider: false,
+  },
+  {
+    title: "Docs",
+    icon: docIcon,
+    showDivider: true,
+  },
+];
+
 const AppDrawer: React.FC = () => {
   const [isExpanded, setIsExpanded] = useState(true);
   const theme = useTheme();
@@ -100,40 +113,40 @@ const AppDrawer: React.FC = () => {
       </List>
       <Box position="absolute" bottom={0} width={isExpanded ? 240 : 90}>
         <List>
-          <ListItem disablePadding sx={{ p: 1 }}>
-            <ListItemButton>
-              <img src={userIcon} alt="admin-logo" />
-              {isExpanded && (
-                <ListItemText primary="Admin" sx={{ color: "white", ml: 2 }} />
-              )}
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding sx={{ p: 1 }}>
-            <ListItemButton>
-              <img src={docIcon} alt="docs-logo" />
-              {isExpanded && (
-                <ListItemText primary="Docs" sx={{ color: "white", ml: 2 }} />
-              )}
+          {sideBarBottomMenus.map((menu, idx) => (
+            <ListItem disablePadding sx={{ p: 1 }} key={idx}>
+              <ListItemButton>
+                <img src={menu.icon} alt="admin-logo" />
+                {isExpanded && (
+                  <ListItemText
+                    primary={menu.title}
+                    sx={{ color: "white", ml: 2 }}
+                  />
+                )}
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+        <Divider sx={{ background: "#4d1b95" }} />
+        <List>
+          <ListItem disablePadding sx={{ p: 1 }} onClick={handleExpansion}>
+            <ListItemButton sx={{ justifyContent: "flex-start" }}>
+              <ListItemIcon>
+                <img
+                  src={expandIcon}
+                  alt="expand-logo"
+                  style={{
+                    transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)",
+                  }}
+                />
+              </ListItemIcon>
             </ListItemButton>
           </ListItem>
         </List>
-        <Divider sx={{ background: "#4d1b95" }} />
-        <ListItem disablePadding sx={{ p: 1 }}>
-          <ListItemButton sx={{ justifyContent: "flex-start" }}>
-            <ListItemIcon onClick={handleExpansion}>
-              <img
-                src={expandIcon}
-                alt="expand-logo"
-                style={{
-                  transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)",
-                }}
-              />
-            </ListItemIcon>
-          </ListItemButton>
-        </ListItem>
       </Box>
     </div>
   );
+
   return (
     <Box component="nav" aria-label="mailbox folders">
       <Drawer

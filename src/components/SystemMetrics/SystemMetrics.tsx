@@ -158,7 +158,10 @@ const SystemMetrics = () => {
   return loading ? (
     <Shimmer height={515} />
   ) : (
-    <Card sx={{ borderRadius: "8px" }}>
+    <Card
+      sx={{ borderRadius: "8px" }}
+      className={`shimmer-inactive-ctn ${loading ? "" : "visible"}`}
+    >
       <CardContent>
         <Typography variant="headerText">System metrics</Typography>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
