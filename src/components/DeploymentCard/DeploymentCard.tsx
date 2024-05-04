@@ -4,8 +4,21 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { purple } from "@mui/material/colors";
+import { useContext } from "react";
+import {
+  DashboardTabContext,
+  DashboardTabContextType,
+} from "Context/tabSelected";
+import { getTimeLag } from "utils";
+import { ApplicationStatusResponse } from "types";
 
 const DeploymentCard = () => {
+  const { selectedApp = {} as ApplicationStatusResponse } = useContext(
+    DashboardTabContext
+  ) as DashboardTabContextType;
+
+  const { desiredVersion, version, updatedAt } = selectedApp;
+
   return (
     <Card sx={{ borderRadius: "8px" }}>
       <CardContent>
@@ -15,13 +28,15 @@ const DeploymentCard = () => {
             <Typography variant="body2" color="text.secondary">
               Current version
             </Typography>
-            <Typography variant="body1">In sync</Typography>
+            <Typography variant="body1">
+              {version === desiredVersion ? "In sync" : version ?? "---"}
+            </Typography>
           </Box>
           <Box>
             <Typography variant="body2" color="text.secondary">
               Desired version
             </Typography>
-            <Typography variant="body1">1.2.1</Typography>
+            <Typography variant="body1">{desiredVersion}</Typography>
           </Box>
         </Box>
         <Box display="flex" justifyContent="space-between">
@@ -29,7 +44,7 @@ const DeploymentCard = () => {
             Deploy
           </Button>
           <Typography variant="caption" color="text.secondary">
-            Last updated{" "}
+            {`Last updated ${getTimeLag(+updatedAt * 1000)}`}
           </Typography>
         </Box>
       </CardContent>

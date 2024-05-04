@@ -5,6 +5,7 @@ import { StyledEngineProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Provider } from "react-redux";
 import { store } from "store";
+import DashboardTabProvider from "Context/tabSelected";
 declare module "@mui/material/styles" {
   interface Palette {
     white: string;
@@ -47,8 +48,10 @@ const AllProvider: React.FC<PropsWithChildren> = ({ children }) => {
       <StyledEngineProvider injectFirst>
         <Provider store={store}>
           <BrowserRouter>
-            <CssBaseline />
-            {children}
+            <DashboardTabProvider>
+              <CssBaseline />
+              {children}
+            </DashboardTabProvider>
           </BrowserRouter>
         </Provider>
       </StyledEngineProvider>

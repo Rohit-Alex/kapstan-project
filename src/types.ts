@@ -19,7 +19,7 @@ export interface IGenralizedInitialState<T> {
 }
 
 export const RESPONSE_INITIAL_STATE = <T>(
-  dataDefaultValue = {}
+  dataDefaultValue = []
 ): IGenralizedInitialState<T> => ({
   status: "uninitialized",
   error: "",

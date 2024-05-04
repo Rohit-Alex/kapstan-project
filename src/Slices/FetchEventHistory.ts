@@ -9,6 +9,7 @@ import {
 } from "types";
 import { getEventHistory } from "api/services";
 import { toast } from "react-toastify";
+import { AppDispatch } from "store";
 
 const getEventHistoryThunk = createAsyncThunk(
   "get/eventHistory",
@@ -58,7 +59,7 @@ export const useEventHistory = (): IGenralizedInitialState<
 export const triggerEventHistoryAPI =
   () =>
   async (
-    dispatch: IDispatcherType,
+    dispatch: AppDispatch,
     getState: () => IStates
   ): Promise<EventHistoryResponse[]> => {
     await dispatch(getEventHistoryThunk());

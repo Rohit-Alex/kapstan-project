@@ -1,22 +1,62 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
-type PropsType = {
-  handleSetDimensions: (val: { width: number; height: number }) => void;
-};
+import {
+  triggerApplicationListAPI,
+  useApplicationList,
+} from "Slices/FetchProjectStatus";
+import { useDispatch } from "react-redux";
+import { ApplicationStatusResponse } from "types";
+import {
+  DashboardTabContext,
+  DashboardTabContextType,
+} from "Context/tabSelected";
 
-const AppHeader: React.FC<PropsType> = ({ handleSetDimensions }) => {
+const AppHeader = () => {
+  const { status, data } = useApplicationList();
+  const dispatch = useDispatch();
   const appBarRef = useRef<HTMLDivElement>(null);
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { selectedApp, handleAppChange } = useContext(
+    DashboardTabContext
+  ) as DashboardTabContextType;
+
   useEffect(() => {
-    if (appBarRef && appBarRef.current) {
-      const rect = appBarRef.current.getBoundingClientRect();
-      handleSetDimensions({ width: rect.width, height: rect.height });
+    apiCall();
+  }, []);
+
+  useEffect(() => {
+    if (status === "fetched") {
+      handleAppChange(data?.[0] as ApplicationStatusResponse);
     }
-  }, [appBarRef]);
+  }, [status]);
+
+  const apiCall = () => {
+    dispatch(triggerApplicationListAPI() as any);
+  };
+
+  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (selectedMenu?: ApplicationStatusResponse) => {
+    if (selectedMenu) {
+      handleAppChange(selectedMenu);
+    }
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
+  if (status !== "fetched") return null;
 
   return (
     <AppBar
@@ -32,9 +72,29 @@ const AppHeader: React.FC<PropsType> = ({ handleSetDimensions }) => {
           <Typography variant="body2" noWrap component="div">
             Applications
           </Typography>
-          <Typography variant="subtitle1" noWrap component="div">
-            tic-tac-toe
-          </Typography>
+          <Box display="flex" alignItems="center" onClick={handleClick}>
+            <Typography variant="subtitle1" noWrap component="div">
+              {selectedApp?.name ?? "none selected"}
+            </Typography>
+            <KeyboardArrowDownIcon />
+          </Box>
+
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={() => handleClose()}
+          >
+            {data?.map((app, idx) => (
+              <MenuItem
+                selected={app.name === selectedApp?.name}
+                key={idx + app?.name}
+                onClick={() => handleClose(app)}
+              >
+                {app?.name}
+              </MenuItem>
+            ))}
+          </Menu>
         </div>
         <div className="flex flex-align-center">
           <Avatar sx={{ bgcolor: "#ffd07a" }}>JD</Avatar>

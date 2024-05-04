@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { TABS_OPTION } from "types";
+import { ApplicationStatusResponse, TABS_OPTION } from "types";
 
 export type DashboardTabContextType = {
   selectedTab: TABS_OPTION;
+  selectedApp: ApplicationStatusResponse;
   handleTabChange: (tabIndex: number) => void;
+  handleAppChange: (newApp: ApplicationStatusResponse) => void;
 };
 
 export const DashboardTabContext =
@@ -13,15 +15,24 @@ const DashboardTabProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [selectedTab, setSelectedTab] = useState(TABS_OPTION.OVERVIEW);
+  const [selectedApp, setSelectedApp] = useState(
+    {} as ApplicationStatusResponse
+  );
 
   const handleTabChange = (tabIndex: number) => {
     setSelectedTab(tabIndex);
   };
 
+  const handleAppChange = (newApp: ApplicationStatusResponse) => {
+    setSelectedApp(newApp);
+  };
+
   return (
     <DashboardTabContext.Provider
       value={{
+        selectedApp,
         selectedTab,
+        handleAppChange,
         handleTabChange,
       }}
     >

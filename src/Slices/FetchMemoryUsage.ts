@@ -9,6 +9,7 @@ import {
 } from "types";
 import { getMemoryUsage } from "api/services";
 import { toast } from "react-toastify";
+import { AppDispatch } from "store";
 
 const getMemoryUsageThunk = createAsyncThunk("get/memoryUsage", getMemoryUsage);
 
@@ -31,6 +32,7 @@ export const MemoryUsageSlice = createSlice({
         (state: ReturnType<typeof RESPONSE_INITIAL_STATE>, action) => {
           state.status = "fetched";
           state.data = action.payload;
+          toast.success("Fetched successfully!");
         }
       )
       .addCase(
@@ -55,7 +57,7 @@ export const useMemoryUsage = (): IGenralizedInitialState<
 export const triggerMemoryUsageAPI =
   () =>
   async (
-    dispatch: IDispatcherType,
+    dispatch: AppDispatch,
     getState: () => IStates
   ): Promise<MemoryUsageResponse[]> => {
     await dispatch(getMemoryUsageThunk());

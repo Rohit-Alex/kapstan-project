@@ -11,17 +11,12 @@ const Request = axios.create({
 const serializeError = (error: AxiosError): IError => {
   const { response } = error;
   if (!response) throw error;
-  const { status, statusText, data } = response;
-  const message = data ? data.message : statusText || `API FAILED (${status})`;
-  let errorMsg = "";
-  try {
-    errorMsg = data?.error?.debug_msg || message;
-  } catch (e) {
-    errorMsg = message;
-  }
+  const { status, statusText } = response;
+  const message = statusText || `API FAILED (${status})`;
+
   const errorObj: IError = {
     name: "API ERROR",
-    message: errorMsg,
+    message,
     code: status ? status.toString() : "Unknown",
   };
   return errorObj;
@@ -80,7 +75,7 @@ export const apiCall = async <T>({
     };
 
     const response = await Request(options);
-    return response.data;
+    return response;
   } catch (error) {
     throw error;
   }

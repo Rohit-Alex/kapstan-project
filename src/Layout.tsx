@@ -1,29 +1,20 @@
-import React, { PropsWithChildren, useState } from "react";
+import { PropsWithChildren } from "react";
 import Box from "@mui/material/Box";
 
 import AppDrawer from "components/AppDrawer";
 import AppHeader from "components/AppHeader";
 
 const Layout: React.FC<PropsWithChildren> = ({ children }) => {
-  const [appBarSize, setAppBarSize] = useState({ width: 0, height: 0 });
-
-  const handleSetAppHeaderDimensions = (val: any) => {
-    setAppBarSize(val);
-  };
-
   return (
     <Box sx={{ display: "flex" }}>
       <AppDrawer />
-      <Box flex={1}>
-        <AppHeader handleSetDimensions={handleSetAppHeaderDimensions} />
-
+      <Box flex={1} sx={{ height: "100vh", overflowY: "scroll" }}>
+        <AppHeader />
         <Box
           component="main"
           sx={{
             flexGrow: 1,
             p: 2,
-            height: `calc(100vh - ${appBarSize.height}px)`,
-            overflow: "scroll",
           }}
         >
           {children}

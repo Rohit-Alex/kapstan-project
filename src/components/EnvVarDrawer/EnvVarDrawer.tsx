@@ -61,7 +61,6 @@ const EnvVarDrawer: React.FC<PropsType> = ({
     reader.onload = async (event) => {
       const text = event.target?.result as string;
       const data = await parseCsv(text);
-      console.log({ data });
       setEnvVars(data);
     };
 
@@ -77,9 +76,7 @@ const EnvVarDrawer: React.FC<PropsType> = ({
       for (let i = 1; i < rows.length; i++) {
         const obj = {} as envVarType;
         const currRowData = rows[i].split(",");
-        console.log({ currRowData });
         for (let j = 0; j < headers.length; j++) {
-          console.log(headers[j], currRowData[j]);
           obj[headers[j]?.trim() as keyof envVarType] = currRowData[j].trim();
         }
 
