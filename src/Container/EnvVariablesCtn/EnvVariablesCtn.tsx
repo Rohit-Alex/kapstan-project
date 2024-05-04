@@ -2,7 +2,6 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
-import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import { useState } from "react";
 import EnvVarDrawer from "components/EnvVarDrawer";
 import { envVarType } from "components/EnvVarDrawer/types";
@@ -71,7 +70,7 @@ const EnvVariablesCtn = () => {
             borderRadius={1}
             my={2}
             p={1.5}
-            width="60%"
+            width="80%"
           >
             <Typography>{env?.key}</Typography>
             <Typography>{env?.value}</Typography>

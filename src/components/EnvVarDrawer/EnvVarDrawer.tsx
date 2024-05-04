@@ -43,8 +43,14 @@ const EnvVarDrawer: React.FC<PropsType> = ({
 
   const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const [fileUploaded] = Array.from(event.target?.files ?? []);
+    console.log({ fileUploaded });
     if (!fileUploaded) return;
-    if (!["text/csv", "application/vnd.ms-excel"].includes(fileUploaded.type)) {
+    if (!["", ".env"].includes(fileUploaded.type)) {
+      toast.error("Please upload .env file only");
+      return;
+    }
+    if (fileUploaded.size > 1024 * 5) {
+      toast.error("Please upload .env file of size less than 5kb");
       return;
     }
     setKey((prev) => prev + 1);
@@ -73,16 +79,15 @@ const EnvVarDrawer: React.FC<PropsType> = ({
     return new Promise<envVarType[]>((resolve, reject) => {
       const rows = csvText.split("\n");
       const result = [] as envVarType[];
-
-      const headers = rows[0].split(",") as (keyof envVarType)[];
-      for (let i = 1; i < rows.length; i++) {
+      console.log({ rows });
+      for (let i = 0; i < rows.length; i++) {
         const obj = {} as envVarType;
-        const currRowData = rows[i].split(",");
-        for (let j = 0; j < headers.length; j++) {
-          obj[headers[j]?.trim() as keyof envVarType] = currRowData[j].trim();
+        const [key, value] = rows[i].split("=");
+        if (key?.trim() && value?.trim()) {
+          obj.key = key?.trim();
+          obj.value = value?.trim();
+          result.push(obj);
         }
-
-        result.push(obj);
       }
       resolve(result);
     });
@@ -132,7 +137,6 @@ const EnvVarDrawer: React.FC<PropsType> = ({
                 </Typography>
                 <input
                   type="file"
-                  accept=".csv"
                   className="none"
                   onChange={handleUpload}
                   id="upload_csv_file"
@@ -183,9 +187,9 @@ const EnvVarDrawer: React.FC<PropsType> = ({
           ))}
 
         <Link
-          href={"/envVarSample.csv"}
+          href={"/sample.env"}
           target="_blank"
-          download={"/envVarSample.csv"}
+          download={"/sample.env"}
           component="a"
         >
           <Button variant="outlined" fullWidth color="primary" sx={{ my: 1 }}>
