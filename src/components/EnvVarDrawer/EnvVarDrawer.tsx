@@ -29,6 +29,11 @@ const EnvVarDrawer: React.FC<PropsType> = ({
     });
   };
 
+  const clearDataAndClose = () => {
+    setEnvVars([]);
+    handleClose();
+  };
+
   const handleChangeKeyOrValue =
     (type: "key" | "value", index: number) =>
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +112,7 @@ const EnvVarDrawer: React.FC<PropsType> = ({
   const DrawerList = (
     <Box sx={{ minWidth: 700 }}>
       <CloseIcon
-        onClick={handleClose}
+        onClick={clearDataAndClose}
         sx={{ position: "absolute", right: 10, top: 10 }}
       />
       <Box p={1.5} mt={8} mx={4} border="1px solid #EBEBEB" borderRadius={1}>
@@ -197,7 +202,7 @@ const EnvVarDrawer: React.FC<PropsType> = ({
           </Button>
         </Link>
         <Box display="flex" justifyContent="flex-end" gap={2} mt={2}>
-          <Button variant="outlined" onClick={handleClose}>
+          <Button variant="outlined" onClick={clearDataAndClose}>
             Cancel
           </Button>
           <Button
