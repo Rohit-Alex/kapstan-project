@@ -1,5 +1,6 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   DashboardTabContext,
@@ -7,13 +8,18 @@ import {
 } from "Context/tabSelected";
 import { useContext } from "react";
 import StatusBox from "components/StatusBox";
+import { useApplicationList } from "Slices/FetchProjectStatus";
 
 const ProjectStatusHeader = () => {
   const { selectedApp } = useContext(
     DashboardTabContext
   ) as DashboardTabContextType;
+  const { status: applicationListStatus } = useApplicationList();
+  const isloaded = ["fetched", "error"].includes(applicationListStatus);
 
-  return (
+  return !isloaded ? (
+    <Skeleton variant="rounded" height={50} />
+  ) : (
     <Box display="flex" justifyContent="space-between">
       <Typography variant="h4">{selectedApp?.name}</Typography>
       <Box display="flex" gap="1" alignItems="center">

@@ -1,9 +1,11 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import ComputerOutlinedIcon from "@mui/icons-material/ComputerOutlined";
-import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
-import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
-import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
+
+import computerIcon from "assets/tv.svg";
+import buildIcon from "assets/Build.svg";
+import triangleIcon from "assets/Triangle.svg";
+import historyClock from "assets/History.svg";
+
 import { grey } from "@mui/material/colors";
 import { PropsType } from "./types";
 import { useContext } from "react";
@@ -14,19 +16,19 @@ import {
 
 const TABS = [
   {
-    icon: <ComputerOutlinedIcon />,
+    icon: computerIcon,
     text: "Overview",
   },
   {
-    icon: <HandymanOutlinedIcon />,
+    icon: buildIcon,
     text: "Environment Variables",
   },
   {
-    icon: <ReportProblemOutlinedIcon />,
+    icon: triangleIcon,
     text: "Alerts",
   },
   {
-    icon: <HistoryOutlinedIcon />,
+    icon: historyClock,
     text: "Event History",
   },
 ];
@@ -41,7 +43,7 @@ const ProjectTabs: React.FC<PropsType> = ({ selectedTab }) => {
   };
 
   return (
-    <Box my={2} display="flex" alignItems="center" gap={2}>
+    <Box my={2} display="flex" alignItems="center" gap={4}>
       {TABS.map((tab, index) => (
         <Box
           key={index}
@@ -50,7 +52,7 @@ const ProjectTabs: React.FC<PropsType> = ({ selectedTab }) => {
           onClick={() => tabClicked(index)}
           sx={{ cursor: "pointer" }}
         >
-          {tab.icon}
+          <img src={tab.icon} alt="tab-icon-alt" />
           <Typography
             ml={1}
             variant="body2"

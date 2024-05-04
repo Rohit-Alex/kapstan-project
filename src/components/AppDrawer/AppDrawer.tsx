@@ -7,34 +7,38 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
-import GridViewIcon from "@mui/icons-material/GridView";
-import LinkIcon from "@mui/icons-material/Link";
-import MoneyOffIcon from "@mui/icons-material/MoneyOff";
-import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import UnfoldLessDoubleIcon from "@mui/icons-material/UnfoldLessDouble";
-import LensOutlinedIcon from "@mui/icons-material/LensOutlined";
+import Typography from "@mui/material/Typography";
+
 import { useTheme } from "@mui/material";
+import kapstanLogo from "assets/logo.svg";
+import dashboardLogo from "assets/dashboard-logo.svg";
+import link from "assets/Link.svg";
+import money from "assets/Money.svg";
+import shield from "assets/Intersect.svg";
+import userIcon from "assets/User.svg";
+import docIcon from "assets/Docs.svg";
+import expandIcon from "assets/Left.svg";
 
 const sideBarMenus = [
   {
     title: "Applications",
-    icon: <GridViewIcon sx={{ color: "white" }} />,
+    icon: dashboardLogo,
     showDivider: true,
   },
   {
     title: "Connections",
-    icon: <LinkIcon sx={{ color: "white" }} />,
+    icon: link,
   },
   {
     title: "Cost",
-    icon: <MoneyOffIcon sx={{ color: "white" }} />,
+    icon: money,
+    beta: false,
   },
   {
     title: "Security",
-    icon: <ShieldOutlinedIcon sx={{ color: "white" }} />,
+    icon: shield,
     showDivider: true,
+    beta: true,
   },
 ];
 
@@ -50,12 +54,10 @@ const AppDrawer: React.FC = () => {
     <div>
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <LensOutlinedIcon sx={{ color: "white" }} />
-            </ListItemIcon>
+          <ListItemButton sx={{ justifyContent: "center" }}>
+            <img src={kapstanLogo} alt="kapstan-logo" />
             {isExpanded && (
-              <ListItemText primary="Kapstan" sx={{ color: "white" }} />
+              <ListItemText primary="Kapstan" sx={{ color: "white", ml: 2 }} />
             )}
           </ListItemButton>
         </ListItem>
@@ -64,15 +66,31 @@ const AppDrawer: React.FC = () => {
       <List>
         {sideBarMenus.map((item, index) => (
           <React.Fragment key={index}>
-            <ListItem key={index} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItem key={index} disablePadding sx={{ p: 1 }}>
+              <ListItemButton
+                sx={{
+                  background: index === 0 ? "#4D1B95" : "unset",
+                  justifyContent: "center",
+                }}
+              >
+                <img src={item.icon} alt="icon-lag-4" />
                 {isExpanded && (
-                  <ListItemText
-                    color="white"
-                    primary={item.title}
-                    sx={{ color: "white" }}
-                  />
+                  <ListItemText sx={{ color: "white", ml: 2 }}>
+                    {item.title}
+                    {item.beta && (
+                      <Typography
+                        component="span"
+                        ml={2}
+                        px={1}
+                        py={0.25}
+                        sx={{
+                          background: "#6E27D5",
+                        }}
+                      >
+                        Beta
+                      </Typography>
+                    )}
+                  </ListItemText>
                 )}
               </ListItemButton>
             </ListItem>
@@ -80,35 +98,35 @@ const AppDrawer: React.FC = () => {
           </React.Fragment>
         ))}
       </List>
-      <Box position="absolute" bottom={0}>
+      <Box position="absolute" bottom={0} width={isExpanded ? 240 : 90}>
         <List>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{ p: 1 }}>
             <ListItemButton>
-              <ListItemIcon>
-                <PersonOutlineIcon sx={{ color: "white" }} />
-              </ListItemIcon>
+              <img src={userIcon} alt="admin-logo" />
               {isExpanded && (
-                <ListItemText primary="Admin" sx={{ color: "white" }} />
+                <ListItemText primary="Admin" sx={{ color: "white", ml: 2 }} />
               )}
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
+          <ListItem disablePadding sx={{ p: 1 }}>
             <ListItemButton>
-              <ListItemIcon>
-                <BookmarkBorderIcon sx={{ color: "white" }} />
-              </ListItemIcon>
+              <img src={docIcon} alt="docs-logo" />
               {isExpanded && (
-                <ListItemText primary="Docs" sx={{ color: "white" }} />
+                <ListItemText primary="Docs" sx={{ color: "white", ml: 2 }} />
               )}
             </ListItemButton>
           </ListItem>
         </List>
         <Divider sx={{ background: "#4d1b95" }} />
-        <ListItem disablePadding>
-          <ListItemButton sx={{ justifyContent: "flex-end" }}>
+        <ListItem disablePadding sx={{ p: 1 }}>
+          <ListItemButton sx={{ justifyContent: "flex-start" }}>
             <ListItemIcon onClick={handleExpansion}>
-              <UnfoldLessDoubleIcon
-                sx={{ color: "white", transform: "rotate(90deg)" }}
+              <img
+                src={expandIcon}
+                alt="expand-logo"
+                style={{
+                  transform: isExpanded ? "rotate(0deg)" : "rotate(180deg)",
+                }}
               />
             </ListItemIcon>
           </ListItemButton>
@@ -121,12 +139,10 @@ const AppDrawer: React.FC = () => {
       <Drawer
         variant="permanent"
         sx={{
-          display: { xs: "none", sm: "block" },
           "& .MuiDrawer-paper": {
             boxSizing: "border-box",
             position: "static",
             height: "100vh",
-            paddingRight: "30px",
             background: "#37146b",
             transition: theme.transitions.create("width", {
               easing: theme.transitions.easing.sharp,
