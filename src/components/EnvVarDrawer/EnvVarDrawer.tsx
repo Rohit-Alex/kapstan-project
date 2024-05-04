@@ -10,6 +10,7 @@ import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { purple } from "@mui/material/colors";
+import { toast } from "react-toastify";
 
 const EnvVarDrawer: React.FC<PropsType> = ({
   open,
@@ -92,7 +93,9 @@ const EnvVarDrawer: React.FC<PropsType> = ({
   };
 
   const handleSave = () => {
-    saveEnvVar(envVars as envVarType[]);
+    saveEnvVar([...(envVars as envVarType[])]);
+    setEnvVars([]);
+    toast.success("Environemnt variables saved.");
     handleClose();
   };
 
