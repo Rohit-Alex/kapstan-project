@@ -8,7 +8,6 @@ import Link from "@mui/material/Link";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { dummyEventHistory } from "constant";
-import Skeleton from "@mui/material/Skeleton";
 import { getTimeLag } from "utils";
 import { PropsType } from "./types";
 import { useContext, useEffect, useState } from "react";
@@ -24,6 +23,7 @@ import {
 
 import StatusBox from "components/StatusBox";
 import { useAppDispatch } from "Hooks/useReduxHooks";
+import Shimmer from "components/Shimmer";
 
 const EventHistory: React.FC<PropsType> = ({ showAll }) => {
   const { status: eventHistoryStatus, data: eventHistoryData } =
@@ -53,7 +53,7 @@ const EventHistory: React.FC<PropsType> = ({ showAll }) => {
   ) as DashboardTabContextType;
 
   return loading ? (
-    <Skeleton variant="rounded" height={515} />
+    <Shimmer height={515} />
   ) : (
     <Card sx={{ borderRadius: "8px" }}>
       <CardContent>

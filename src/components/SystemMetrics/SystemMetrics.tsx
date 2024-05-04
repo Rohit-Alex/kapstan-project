@@ -12,7 +12,7 @@ import { triggerMemoryUsageAPI, useMemoryUsage } from "Slices/FetchMemoryUsage";
 import { CpuUsageResponse, MemoryUsageResponse } from "types";
 import { useAppDispatch } from "Hooks/useReduxHooks";
 import { useApplicationList } from "Slices/FetchProjectStatus";
-import Skeleton from "@mui/material/Skeleton";
+import Shimmer from "components/Shimmer";
 
 const SystemMetrics = () => {
   const dispatch = useAppDispatch();
@@ -156,7 +156,7 @@ const SystemMetrics = () => {
   };
 
   return loading ? (
-    <Skeleton variant="rounded" height={515} />
+    <Shimmer height={515} />
   ) : (
     <Card sx={{ borderRadius: "8px" }}>
       <CardContent>

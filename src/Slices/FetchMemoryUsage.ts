@@ -32,7 +32,6 @@ export const MemoryUsageSlice = createSlice({
         (state: ReturnType<typeof RESPONSE_INITIAL_STATE>, action) => {
           state.status = "fetched";
           state.data = action.payload;
-          toast.success("Fetched successfully!");
         }
       )
       .addCase(

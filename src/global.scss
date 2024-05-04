@@ -16,6 +16,16 @@
   }
 }
 
+.shimmer-inactive-ctn {
+  animation: fade-in-out 0.8s ease-in-out;
+  animation-fill-mode: forwards;
+  display: none;
+}
+
+.shimmer-inactive-ctn.visible {
+  display: block;
+}
+
 .flex {
   display: flex;
 }

@@ -1,6 +1,5 @@
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Skeleton from "@mui/material/Skeleton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   DashboardTabContext,
@@ -9,6 +8,7 @@ import {
 import { useContext } from "react";
 import StatusBox from "components/StatusBox";
 import { useApplicationList } from "Slices/FetchProjectStatus";
+import Shimmer from "components/Shimmer";
 
 const ProjectStatusHeader = () => {
   const { selectedApp } = useContext(
@@ -18,7 +18,7 @@ const ProjectStatusHeader = () => {
   const isloaded = ["fetched", "error"].includes(applicationListStatus);
 
   return !isloaded ? (
-    <Skeleton variant="rounded" height={50} />
+    <Shimmer height={50} />
   ) : (
     <Box display="flex" justifyContent="space-between">
       <Typography variant="h4">{selectedApp?.name}</Typography>
