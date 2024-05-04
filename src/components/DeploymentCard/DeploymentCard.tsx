@@ -2,6 +2,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Skeleton from "@mui/material/Skeleton";
 import Button from "@mui/material/Button";
 import { purple } from "@mui/material/colors";
 import { useContext } from "react";
@@ -11,15 +12,21 @@ import {
 } from "Context/tabSelected";
 import { getTimeLag } from "utils";
 import { ApplicationStatusResponse } from "types";
+import { useApplicationList } from "Slices/FetchProjectStatus";
 
 const DeploymentCard = () => {
   const { selectedApp = {} as ApplicationStatusResponse } = useContext(
     DashboardTabContext
   ) as DashboardTabContextType;
+  const { status: applicationListStatus } = useApplicationList();
 
   const { desiredVersion, version, updatedAt } = selectedApp;
 
-  return (
+  const isloaded = ["fetched", "error"].includes(applicationListStatus);
+
+  return !isloaded ? (
+    <Skeleton variant="rounded" height={180} />
+  ) : (
     <Card sx={{ borderRadius: "8px" }}>
       <CardContent>
         <Typography variant="headerText">Service Info</Typography>

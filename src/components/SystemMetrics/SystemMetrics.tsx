@@ -12,23 +12,35 @@ import { triggerMemoryUsageAPI, useMemoryUsage } from "Slices/FetchMemoryUsage";
 import { CpuUsageResponse, MemoryUsageResponse } from "types";
 import { useAppDispatch } from "Hooks/useReduxHooks";
 import { useApplicationList } from "Slices/FetchProjectStatus";
+import Skeleton from "@mui/material/Skeleton";
 
 const SystemMetrics = () => {
   const dispatch = useAppDispatch();
 
   const { status: memoryUsageStatus, data: memoryUsageData } = useMemoryUsage();
-  const { status, data: applicationListData } = useApplicationList();
-
+  const { status: applicationListStatus, data: applicationListData } =
+    useApplicationList();
   const { status: cpuUsageStatus, data: cpuUsageData } = useCpuUsage();
 
   const [selectedMetric, setSelectedMetric] = useState<"cpu" | "memory">("cpu");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (
+      ["fetched", "error"].includes(memoryUsageStatus) &&
+      ["fetched", "error"].includes(cpuUsageStatus) &&
+      ["fetched", "error"].includes(applicationListStatus)
+    ) {
+      setLoading(false);
+    }
+  }, [memoryUsageStatus, applicationListStatus, cpuUsageStatus]);
+
+  useEffect(() => {
     apiCalls();
   }, [selectedMetric]);
 
   const apiCalls = () => {
+    setLoading(true);
     const promiseArr: Promise<any>[] = [];
 
     if (selectedMetric === "cpu" && cpuUsageStatus !== "fetched") {
@@ -136,10 +148,6 @@ const SystemMetrics = () => {
     series: chartSeriesData,
     plotOptions: {
       series: {
-        dataLabels: {
-          // enabled: true,
-          // format: "{point.y}",
-        },
         marker: {
           enabled: true,
         },
@@ -147,25 +155,21 @@ const SystemMetrics = () => {
     },
   };
 
-  return (
+  return loading ? (
+    <Skeleton variant="rounded" height={515} />
+  ) : (
     <Card sx={{ borderRadius: "8px" }}>
       <CardContent>
-        {loading ? (
-          "Loading...."
-        ) : (
-          <>
-            <Typography variant="headerText">System metrics</Typography>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <Tabs value={selectedMetric} onChange={handleTabChange}>
-                <Tab value="cpu" label="CPU" />
-                <Tab value="memory" label="Memory" />
-              </Tabs>
-            </Box>
-            <Box mt={2}>
-              <HighchartsReact highcharts={Highcharts} options={chartOptions} />
-            </Box>
-          </>
-        )}
+        <Typography variant="headerText">System metrics</Typography>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs value={selectedMetric} onChange={handleTabChange}>
+            <Tab value="cpu" label="CPU" />
+            <Tab value="memory" label="Memory" />
+          </Tabs>
+        </Box>
+        <Box mt={2}>
+          <HighchartsReact highcharts={Highcharts} options={chartOptions} />
+        </Box>
       </CardContent>
     </Card>
   );

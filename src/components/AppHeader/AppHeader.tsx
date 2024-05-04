@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import Skeleton from "@mui/material/Skeleton";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import {
@@ -55,8 +56,9 @@ const AppHeader = () => {
   };
 
   const open = Boolean(anchorEl);
+  const isloaded = ["fetched", "error"].includes(status);
 
-  if (status !== "fetched") return null;
+  // if (status !== "fetched") return null;
 
   return (
     <AppBar
@@ -73,9 +75,17 @@ const AppHeader = () => {
             Applications
           </Typography>
           <Box display="flex" alignItems="center" onClick={handleClick}>
-            <Typography variant="subtitle1" noWrap component="div">
-              {selectedApp?.name ?? "none selected"}
-            </Typography>
+            {!isloaded ? (
+              <Skeleton
+                width="100px"
+                variant="text"
+                sx={{ fontSize: "1.5rem" }}
+              />
+            ) : (
+              <Typography variant="subtitle1" noWrap component="div">
+                {selectedApp?.name ?? "none selected"}
+              </Typography>
+            )}
             <KeyboardArrowDownIcon />
           </Box>
 

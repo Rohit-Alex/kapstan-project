@@ -8,6 +8,7 @@ import Link from "@mui/material/Link";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { dummyEventHistory } from "constant";
+import Skeleton from "@mui/material/Skeleton";
 import { getTimeLag } from "utils";
 import { PropsType } from "./types";
 import { useContext, useEffect, useState } from "react";
@@ -51,66 +52,61 @@ const EventHistory: React.FC<PropsType> = ({ showAll }) => {
     DashboardTabContext
   ) as DashboardTabContextType;
 
-  return (
+  return loading ? (
+    <Skeleton variant="rounded" height={515} />
+  ) : (
     <Card sx={{ borderRadius: "8px" }}>
       <CardContent>
-        {loading ? (
-          "Loading...."
-        ) : (
-          <>
-            <Typography variant="headerText">Event History</Typography>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="left">Event</TableCell>
-                  <TableCell align="center">Version</TableCell>
-                  <TableCell align="center" width="40%">
-                    Status
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {(showAll
-                  ? dummyEventHistory
-                  : dummyEventHistory.slice(0, 5)
-                ).map((row, idx) => {
-                  return (
-                    <TableRow
-                      key={row.event + idx}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+        <Typography variant="headerText">Event History</Typography>
+        <Table aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Event</TableCell>
+              <TableCell align="center">Version</TableCell>
+              <TableCell align="center" width="40%">
+                Status
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {(showAll ? dummyEventHistory : dummyEventHistory.slice(0, 5)).map(
+              (row, idx) => {
+                return (
+                  <TableRow
+                    key={row.event + idx}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" align="left">
+                      {row.event}
+                      <Typography variant="caption" component="p">
+                        {getTimeLag(+row.timestamp * 1000)}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center" component="th">
+                      {row.version}
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      component="th"
+                      style={{ width: "20%" }}
                     >
-                      <TableCell component="th" align="left">
-                        {row.event}
-                        <Typography variant="caption" component="p">
-                          {getTimeLag(+row.timestamp * 1000)}
-                        </Typography>
-                      </TableCell>
-                      <TableCell align="center" component="th">
-                        {row.version}
-                      </TableCell>
-                      <TableCell
-                        align="center"
-                        component="th"
-                        style={{ width: "20%" }}
-                      >
-                        <StatusBox status={row.status} />
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-            {!showAll && (
-              <Link
-                variant="subtitle1"
-                component="button"
-                underline="always"
-                onClick={() => handleTabChange(TABS_OPTION.HISTORY)}
-              >
-                view all
-              </Link>
+                      <StatusBox status={row.status} />
+                    </TableCell>
+                  </TableRow>
+                );
+              }
             )}
-          </>
+          </TableBody>
+        </Table>
+        {!showAll && (
+          <Link
+            variant="subtitle1"
+            component="button"
+            underline="always"
+            onClick={() => handleTabChange(TABS_OPTION.HISTORY)}
+          >
+            view all
+          </Link>
         )}
       </CardContent>
     </Card>
