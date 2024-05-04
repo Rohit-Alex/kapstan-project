@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Badge from "@mui/material/Badge";
 
 import computerIcon from "assets/tv.svg";
 import buildIcon from "assets/Build.svg";

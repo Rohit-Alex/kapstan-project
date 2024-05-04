@@ -1,14 +1,21 @@
-import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const ToastCtn = () => {
-  return (
-    <ToastContainer
-      closeOnClick
-      className="toaster"
-      draggable
-      theme="colored"
-    />
-  );
-};
+import React from "react";
+import { Slide, ToastContainer } from "react-toastify";
 
-export default ToastCtn;
+const ToastCtn = () => (
+  <ToastContainer
+    autoClose={5000}
+    hideProgressBar
+    closeButton={false}
+    transition={Slide}
+    draggable={false}
+    pauseOnFocusLoss={false}
+    closeOnClick={false}
+    className="toaster"
+    theme="dark"
+    limit={3}
+  />
+);
+
+export default React.memo(ToastCtn);

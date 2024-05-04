@@ -7,6 +7,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import upArrow from "assets/arrow-up.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import TextField from "@mui/material/TextField";
+import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { purple } from "@mui/material/colors";
 
@@ -178,6 +179,16 @@ const EnvVarDrawer: React.FC<PropsType> = ({
             </Box>
           ))}
 
+        <Link
+          href={"/envVarSample.csv"}
+          target="_blank"
+          download={"/envVarSample.csv"}
+          component="a"
+        >
+          <Button variant="outlined" fullWidth color="primary" sx={{ my: 1 }}>
+            Download Sample File
+          </Button>
+        </Link>
         <Box display="flex" justifyContent="flex-end" gap={2} mt={2}>
           <Button variant="outlined" onClick={handleClose}>
             Cancel

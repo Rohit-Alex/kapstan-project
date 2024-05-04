@@ -51,10 +51,10 @@ const EnvVariablesCtn = () => {
             onClick={toggleDrawerVisibility(true)}
             sx={{ cursor: "pointer" }}
           />
-          <FileDownloadOutlinedIcon
+          {/* <FileDownloadOutlinedIcon
             onClick={toggleDrawerVisibility(true)}
             sx={{ cursor: "pointer" }}
-          />
+          /> */}
         </Box>
       </Box>
       {envVarSaved.length === 0 ? (
