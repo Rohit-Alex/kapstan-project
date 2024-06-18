@@ -1,1 +1,1 @@
-## No Assignments from now on!
+## No Assignments from now on.
